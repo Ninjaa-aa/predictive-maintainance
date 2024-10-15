@@ -7,6 +7,7 @@ export interface SubService {
     id: string;
     name: string;
     description: string;
+    icon: string;
     subServices?: SubService[];
   }
   
@@ -14,22 +15,26 @@ export interface SubService {
     {
       id: "data-engineering",
       name: "Data Engineering",
-      description: "We optimize the process of extracting, transforming, and loading (ETL) your data from various sources, ensuring data quality and reliability for your analytics projects."
+      description: "We optimize the process of extracting, transforming, and loading (ETL) your data from various sources, ensuring data quality and reliability for your analytics projects.",
+      icon: "mdi:database-cog-outline"
     },
     {
       id: "data-science",
       name: "Data Science and Modeling",
-      description: "Uncover hidden patterns, trends, and insights within your data employing our advanced statistical techniques and machine learning algorithms."
+      description: "Uncover hidden patterns, trends, and insights within your data employing our advanced statistical techniques and machine learning algorithms.",
+      icon: "mdi:flask-outline"
     },
     {
       id: "business-intelligence",
       name: "Business Intelligence (BI)",
-      description: "Acquire comprehensive BI solutions that help you turn data into actionable intelligence, enabling you to make informed decisions and drive business growth."
+      description: "Acquire comprehensive BI solutions that help you turn data into actionable intelligence, enabling you to make informed decisions and drive business growth.",
+      icon: "mdi:chart-box-outline"
     },
     {
       id: "predictive-analytics",
       name: "Predictive Analytics",
       description: "Leverage advanced analytics to forecast trends and make proactive decisions.",
+      icon: "mdi:crystal-ball",
       subServices: [
         {
           name: "Predictive Maintenance",
@@ -45,6 +50,7 @@ export interface SubService {
       id: "ai-solutions",
       name: "AI-Powered Solutions",
       description: "Harness the power of artificial intelligence to transform your business processes.",
+      icon: "mdi:robot-outline",
       subServices: [
         {
           name: "Intelligent Automation",
@@ -60,10 +66,15 @@ export interface SubService {
       id: "visualization",
       name: "Visualization",
       description: "Transform complex data into clear, actionable insights.",
+      icon: "mdi:chart-areaspline",
       subServices: [
         {
           name: "Dashboards and Data Visualization",
           description: "We create interactive dashboards and visualizations that turn complex data into actionable insights, empowering you to make data-driven decisions."
+        },
+        {
+          name: "Interactive Data Exploration",
+          description: "Our tools allow users to dynamically explore and interact with data, uncovering insights through intuitive interfaces and real-time visual feedback."
         }
       ]
     }
