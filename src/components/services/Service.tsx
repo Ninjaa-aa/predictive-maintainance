@@ -1,3 +1,4 @@
+// InsightAIServices.tsx
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
@@ -41,7 +42,8 @@ const InsightAIServices = () => {
                 >
                   <Icon icon={service.icon} width="32" height="32" className="text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-semibold mb-4 text-white">{service.title}</h3>
+                {/* Updated here: using service.name instead of service.title */}
+                <h3 className="text-2xl font-semibold mb-4 text-white">{service.name}</h3>
                 <p className="text-red-100 mb-4">{service.description}</p>
                 <motion.button
                   className="mt-4 px-4 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600 transition-colors duration-300"
@@ -71,7 +73,7 @@ const InsightAIServices = () => {
                 exit={{ scale: 0.9, y: 50 }}
                 onClick={(e) => e.stopPropagation()}
               >
-                <h2 className="text-3xl font-bold mb-4 text-white">{selectedService.title}</h2>
+                <h2 className="text-3xl font-bold mb-4 text-white">{selectedService.name}</h2>
                 <p className="text-red-100 mb-6">{selectedService.description}</p>
                 {selectedService.subServices && (
                   <div className="space-y-4">
@@ -84,7 +86,7 @@ const InsightAIServices = () => {
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ delay: index * 0.1 }}
                       >
-                        <h4 className="text-xl font-semibold mb-2 text-white">{subService.title}</h4>
+                        <h4 className="text-xl font-semibold mb-2 text-white">{subService.name}</h4>
                         <p className="text-red-100">{subService.description}</p>
                       </motion.div>
                     ))}
