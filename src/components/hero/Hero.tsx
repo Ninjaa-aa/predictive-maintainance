@@ -1,9 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import '@/styles/global.css';
+
 const Hero = () => {
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-red-100 via-red-200 to-red-300">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-red-300 via-red-400 to-red-500">
       {/* Animated background grid */}
       <svg className="absolute inset-0 z-0 opacity-20" xmlns="http://www.w3.org/2000/svg">
         {[...Array(20)].map((_, i) => (
@@ -13,7 +14,7 @@ const Hero = () => {
             y1={`${i * 5}%`}
             x2="100%"
             y2={`${i * 5}%`}
-            stroke="#ef4444"
+            stroke="#b91c1c"
             strokeWidth="0.5"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
@@ -27,7 +28,7 @@ const Hero = () => {
             y1="0%"
             x2={`${i * 5}%`}
             y2="100%"
-            stroke="#ef4444"
+            stroke="#b91c1c"
             strokeWidth="0.5"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
@@ -48,16 +49,16 @@ const Hero = () => {
           }}
         >
           <motion.h1 
-            className="mb-4 text-4xl lg:text-6xl font-bold leading-tight text-red-800"
+            className="mb-4 text-4xl lg:text-6xl font-bold leading-tight text-red-900"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
             }}
           >
-            Welcome to <span className="text-red-600">Credo</span>
+            Welcome to <span className="text-red-700">Credo</span>
           </motion.h1>
           <motion.p 
-            className="leading-normal text-xl mb-8 text-red-700"
+            className="leading-normal text-xl mb-8 text-red-800"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -66,7 +67,7 @@ const Hero = () => {
             Revolutionizing Predictive Maintenance with Advanced AI and Data Science
           </motion.p>
           <motion.button 
-            className="bg-red-600 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            className="bg-red-700 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -88,7 +89,7 @@ const Hero = () => {
           >
             {/* Central gear */}
             <motion.div 
-              className="absolute top-1/2 left-1/2 w-32 h-32 lg:w-48 lg:h-48 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center shadow-lg"
+              className="absolute top-1/2 left-1/2 w-32 h-32 lg:w-48 lg:h-48 bg-gradient-to-br from-red-600 to-red-700 rounded-full flex items-center justify-center shadow-lg"
               style={{ 
                 transform: 'translate(-50%, -50%)'
               }}
@@ -124,7 +125,7 @@ const Hero = () => {
                 }}
               >
                 <motion.div
-                  className="absolute w-8 h-8 lg:w-12 lg:h-12 bg-gradient-to-br from-red-300 to-red-500 rounded-full flex items-center justify-center shadow-md"
+                  className="absolute w-8 h-8 lg:w-12 lg:h-12 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center shadow-md"
                   style={{
                     top: `${50 + 40 * Math.cos((index * 2 * Math.PI) / 6)}%`,
                     left: `${50 + 40 * Math.sin((index * 2 * Math.PI) / 6)}%`,
@@ -154,7 +155,7 @@ const Hero = () => {
                   y1="50%"
                   x2={`${50 + 40 * Math.cos((index * 2 * Math.PI) / 6)}%`}
                   y2={`${50 + 40 * Math.sin((index * 2 * Math.PI) / 6)}%`}
-                  stroke="rgba(239, 68, 68, 0.5)"
+                  stroke="rgba(185, 28, 28, 0.5)"
                   strokeWidth="2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: [0, 0.7, 0] }}
@@ -176,7 +177,7 @@ const Hero = () => {
           {[...Array(20)].map((_, i) => (
             <div
               key={i}
-              className="particle w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-br from-red-300 to-red-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
+              className="particle w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-br from-red-500 to-red-700 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
             >
               {i % 2 === 0 ? '1' : '0'}
             </div>

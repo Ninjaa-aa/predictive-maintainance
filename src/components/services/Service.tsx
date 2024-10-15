@@ -1,163 +1,110 @@
-import React, { useEffect } from 'react';
-import { motion, useAnimation } from 'framer-motion';
-import { useInView } from 'react-intersection-observer';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Icon } from '@iconify/react';
-import { services } from '@/data/service';
+import { Service, services } from '@/data/service';
 
-const Services = () => {
-  const controls = useAnimation();
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  useEffect(() => {
-    if (inView) {
-      controls.start('visible');
-    }
-  }, [controls, inView]);
-
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: 'spring',
-        damping: 12,
-        stiffness: 100,
-      },
-    },
-  };
+const InsightAIServices = () => {
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   return (
-    <section className="py-24 bg-gradient-to-br from-red-50 to-white text-red-900 overflow-hidden relative">
-      <div className="container mx-auto px-4 relative z-10">
-        <motion.h2
-          className="text-5xl font-bold mb-16 text-center text-red-800 tracking-tight"
-          initial={{ opacity: 0, y: -20 }}
+    <section className="min-h-screen bg-gradient-to-b from-red-200 to-red-300 text-white overflow-hidden">
+      <div className="container mx-auto px-4 py-16">
+        <motion.h1
+          className="text-6xl font-extrabold mb-16 text-center"
+          initial={{ opacity: 0, y: -50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.8, delay: 0.2 }}
         >
-          Our Services
-        </motion.h2>
+          <span className="bg-clip-text text-transparent bg-gradient-to-r from-red-600 to-red-800">
+            Insight AI Services
+          </span>
+        </motion.h1>
 
-        <motion.div
-          ref={ref}
-          variants={containerVariants}
-          initial="hidden"
-          animate={controls}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 relative z-10"
-        >
-          {services.map((service) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {services.map((service, index) => (
             <motion.div
               key={service.id}
-              variants={itemVariants}
-              className="bg-white bg-opacity-50 backdrop-filter backdrop-blur-lg rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 group relative overflow-hidden"
+              className="relative group"
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: index * 0.1 }}
             >
-              <div className="absolute inset-0 bg-gradient-to-br from-red-100 to-red-200 opacity-0 group-hover:opacity-100 transition-opacity duration-300 rounded-2xl"></div>
-              <div className="relative z-10">
-                <motion.div
-                  className="w-20 h-20 mb-6 text-red-500 mx-auto bg-red-100 rounded-full flex items-center justify-center"
-                  initial={{ rotateY: 0 }}
-                  animate={{ rotateY: 360 }}
-                  transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
+              <motion.div
+                className="bg-gradient-to-br from-red-400 to-red-500 rounded-xl p-6 h-full cursor-pointer transform transition-all duration-300 group-hover:scale-105 border border-red-300 hover:border-white"
+                whileHover={{ boxShadow: '0 0 25px rgba(255, 255, 255, 0.3)' }}
+                onClick={() => setSelectedService(service)}
+              >
+                <motion.div 
+                  className="w-16 h-16 bg-gradient-to-br from-red-300 to-red-400 rounded-full flex items-center justify-center mb-6"
+                  whileHover={{ rotate: 360, scale: 1.1 }}
+                  transition={{ duration: 0.8 }}
                 >
-                  <Icon icon={service.icon} width="48" height="48" />
+                  <Icon icon={service.icon} width="32" height="32" className="text-white" />
                 </motion.div>
-                <h3 className="text-2xl font-bold mb-4 text-center text-red-800">{service.name}</h3>
-                <p className="text-red-700 mb-6 text-center">{service.description}</p>
-                {service.subServices && (
+                <h3 className="text-2xl font-semibold mb-4 text-white">{service.title}</h3>
+                <p className="text-red-100 mb-4">{service.description}</p>
+                <motion.button
+                  className="mt-4 px-4 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600 transition-colors duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                >
+                  View More
+                </motion.button>
+              </motion.div>
+            </motion.div>
+          ))}
+        </div>
+
+        <AnimatePresence>
+          {selectedService && (
+            <motion.div
+              className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center p-4 z-50"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedService(null)}
+            >
+              <motion.div
+                className="bg-red-400 rounded-xl p-8 max-w-2xl w-full max-h-[80vh] overflow-y-auto"
+                initial={{ scale: 0.9, y: 50 }}
+                animate={{ scale: 1, y: 0 }}
+                exit={{ scale: 0.9, y: 50 }}
+                onClick={(e) => e.stopPropagation()}
+              >
+                <h2 className="text-3xl font-bold mb-4 text-white">{selectedService.title}</h2>
+                <p className="text-red-100 mb-6">{selectedService.description}</p>
+                {selectedService.subServices && (
                   <div className="space-y-4">
-                    {service.subServices.map((subService, subIndex) => (
+                    <h3 className="text-2xl font-semibold mb-2 text-red-200">Sub Services</h3>
+                    {selectedService.subServices.map((subService, index) => (
                       <motion.div
-                        key={subIndex}
-                        className="bg-red-50 bg-opacity-50 backdrop-filter backdrop-blur-sm rounded-xl p-4 relative overflow-hidden"
-                        whileHover={{ scale: 1.02, boxShadow: "0 4px 20px rgba(239, 68, 68, 0.1)" }}
-                        transition={{ type: 'spring', stiffness: 300 }}
+                        key={index}
+                        className="bg-red-500 rounded-lg p-4"
+                        initial={{ opacity: 0, x: -20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ delay: index * 0.1 }}
                       >
-                        <h4 className="font-semibold mb-2 relative z-10 text-red-800">{subService.name}</h4>
-                        <p className="text-sm text-red-700 relative z-10">{subService.description}</p>
+                        <h4 className="text-xl font-semibold mb-2 text-white">{subService.title}</h4>
+                        <p className="text-red-100">{subService.description}</p>
                       </motion.div>
                     ))}
                   </div>
                 )}
-              </div>
+                <motion.button
+                  className="mt-6 px-6 py-2 bg-red-500 text-white rounded-full font-semibold hover:bg-red-600 transition-colors duration-300"
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={() => setSelectedService(null)}
+                >
+                  Close
+                </motion.button>
+              </motion.div>
             </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Futuristic background elements */}
-        <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-          <svg className="absolute top-0 left-0 w-full h-full opacity-5" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(239,68,68,0.2)" strokeWidth="1"/>
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-          <motion.div
-            className="absolute -top-20 -left-20 w-60 h-60 bg-red-200 rounded-full filter blur-3xl opacity-30"
-            animate={{
-              scale: [1, 1.2, 1],
-              opacity: [0.3, 0.5, 0.3],
-              rotate: [0, 180, 360],
-            }}
-            transition={{
-              duration: 15,
-              repeat: Infinity,
-              repeatType: 'reverse',
-            }}
-          />
-          <motion.div
-            className="absolute -bottom-20 -right-20 w-80 h-80 bg-red-100 rounded-full filter blur-3xl opacity-30"
-            animate={{
-              scale: [1, 1.3, 1],
-              opacity: [0.3, 0.6, 0.3],
-              rotate: [0, -180, -360],
-            }}
-            transition={{
-              duration: 20,
-              repeat: Infinity,
-              repeatType: 'reverse',
-            }}
-          />
-        </div>
-
-        {/* Futuristic floating particles */}
-        {[...Array(20)].map((_, index) => (
-          <motion.div
-            key={index}
-            className="absolute w-2 h-2 bg-red-400 rounded-full opacity-20"
-            style={{
-              top: `${Math.random() * 100}%`,
-              left: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.5, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              repeatType: 'reverse',
-              delay: Math.random() * 2,
-            }}
-          />
-        ))}
+          )}
+        </AnimatePresence>
       </div>
     </section>
   );
 };
 
-export default Services;
+export default InsightAIServices;
