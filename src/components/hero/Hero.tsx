@@ -1,10 +1,32 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import '@/styles/global.css';
+"use client"
 
-const Hero = () => {
+import React, { useEffect, useState } from 'react'
+import { motion } from 'framer-motion'
+
+export default function Component() {
+  const [dimensions, setDimensions] = useState({ width: 1000, height: 800 });
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setDimensions({
+      width: window.innerWidth,
+      height: window.innerHeight
+    });
+    setIsMounted(true);
+
+    const handleResize = () => {
+      setDimensions({
+        width: window.innerWidth,
+        height: window.innerHeight
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
   return (
-    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-100 via-blue-200 to-blue-300">
+    <div className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-blue-100 via-white to-red-100">
       {/* Animated background grid */}
       <svg className="absolute inset-0 z-0 opacity-20" xmlns="http://www.w3.org/2000/svg">
         {[...Array(20)].map((_, i) => (
@@ -14,7 +36,7 @@ const Hero = () => {
             y1={`${i * 5}%`}
             x2="100%"
             y2={`${i * 5}%`}
-            stroke="#1e40af"
+            stroke="#3B82F6"
             strokeWidth="0.5"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
@@ -28,7 +50,7 @@ const Hero = () => {
             y1="0%"
             x2={`${i * 5}%`}
             y2="100%"
-            stroke="#1e40af"
+            stroke="#3B82F6"
             strokeWidth="0.5"
             initial={{ pathLength: 0, opacity: 0 }}
             animate={{ pathLength: 1, opacity: 0.3 }}
@@ -49,25 +71,73 @@ const Hero = () => {
           }}
         >
           <motion.h1 
-            className="mb-4 text-4xl lg:text-6xl font-bold leading-tight text-red-900"
+            className="mb-4 text-4xl lg:text-6xl font-bold leading-tight text-blue-600"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
             }}
           >
-            Welcome to <span className="text-red-700">Credo</span>
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              Predictive
+            </motion.span>{" "}
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="text-red-500"
+            >
+              Maintenance
+            </motion.span>{" "}
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.6 }}
+            >
+              Solutions
+            </motion.span>
           </motion.h1>
           <motion.p 
-            className="leading-normal text-xl mb-8 text-red-800"
+            className="leading-normal text-xl mb-8 text-gray-700"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
             }}
           >
-            Revolutionizing Predictive Maintenance with Advanced AI and Data Science
+            Revolutionizing Industry with Advanced AI and IoT Integration
           </motion.p>
+          <motion.ul
+            className="list-none mb-8 text-gray-700 space-y-2"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+            }}
+          >
+            {[
+              "Real-time equipment health monitoring",
+              "AI-driven failure prediction algorithms",
+              "IoT sensor integration for data collection",
+              "Customizable maintenance schedules"
+            ].map((item, index) => (
+              <motion.li
+                key={index}
+                initial={{ opacity: 0, x: -20 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ duration: 0.5, delay: 0.7 + index * 0.1 }}
+                className="flex items-center space-x-2"
+              >
+                <svg className="w-4 h-4 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                </svg>
+                <span>{item}</span>
+              </motion.li>
+            ))}
+          </motion.ul>
           <motion.button 
-            className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
+            className="bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out"
             variants={{
               hidden: { opacity: 0, y: 20 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
@@ -89,7 +159,7 @@ const Hero = () => {
           >
             {/* Central gear */}
             <motion.div 
-              className="absolute top-1/2 left-1/2 w-32 h-32 lg:w-48 lg:h-48 bg-gradient-to-br from-red-500 to-red-600 rounded-full flex items-center justify-center shadow-lg"
+              className="absolute top-1/2 left-1/2 w-32 h-32 lg:w-48 lg:h-48 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center shadow-lg"
               style={{ 
                 transform: 'translate(-50%, -50%)'
               }}
@@ -108,7 +178,7 @@ const Hero = () => {
             </motion.div>
 
             {/* Orbiting data points */}
-            {[0, 1, 2, 3, 4, 5].map((index) => (
+            {['AI', 'ML', 'IoT', 'Data', 'Pred', 'Maint'].map((text, index) => (
               <motion.div
                 key={index}
                 className="absolute top-1/2 left-1/2 w-full h-full"
@@ -125,7 +195,7 @@ const Hero = () => {
                 }}
               >
                 <motion.div
-                  className="absolute w-8 h-8 lg:w-12 lg:h-12 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center shadow-md"
+                  className="absolute w-12 h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center shadow-md"
                   style={{
                     top: `${50 + 40 * Math.cos((index * 2 * Math.PI) / 6)}%`,
                     left: `${50 + 40 * Math.sin((index * 2 * Math.PI) / 6)}%`,
@@ -139,8 +209,8 @@ const Hero = () => {
                     repeatType: 'reverse',
                   }}
                 >
-                  <span className="text-xs lg:text-sm font-bold text-white">
-                    {['AI', 'ML', 'IoT', 'Data', 'Pred', 'Maint'][index]}
+                  <span className="text-sm lg:text-base font-bold text-white">
+                    {text}
                   </span>
                 </motion.div>
               </motion.div>
@@ -155,7 +225,7 @@ const Hero = () => {
                   y1="50%"
                   x2={`${50 + 40 * Math.cos((index * 2 * Math.PI) / 6)}%`}
                   y2={`${50 + 40 * Math.sin((index * 2 * Math.PI) / 6)}%`}
-                  stroke="rgba(220, 38, 38, 0.5)"
+                  stroke="rgba(59, 130, 246, 0.5)"
                   strokeWidth="2"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: [0, 0.7, 0] }}
@@ -172,20 +242,31 @@ const Hero = () => {
       </div>
 
       {/* Data particles */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="particles-container">
-          {[...Array(20)].map((_, i) => (
-            <div
+      {isMounted && (
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          {[...Array(30)].map((_, i) => (
+            <motion.div
               key={i}
-              className="particle w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-br from-red-400 to-red-600 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
+              className="absolute w-3 h-3 lg:w-4 lg:h-4 bg-gradient-to-br from-blue-300 to-blue-500 rounded-full flex items-center justify-center text-xs font-bold text-white shadow-md"
+              initial={{
+                x: Math.random() * dimensions.width,
+                y: Math.random() * dimensions.height,
+              }}
+              animate={{
+                x: Math.random() * dimensions.width,
+                y: Math.random() * dimensions.height,
+              }}
+              transition={{
+                duration: Math.random() * 10 + 10,
+                repeat: Infinity,
+                repeatType: 'reverse',
+              }}
             >
               {i % 2 === 0 ? '1' : '0'}
-            </div>
+            </motion.div>
           ))}
         </div>
-      </div>
+      )}
     </div>
-  );
-};
-
-export default Hero;
+  )
+}
