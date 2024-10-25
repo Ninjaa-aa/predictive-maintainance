@@ -1,10 +1,11 @@
+// types/services.ts
 export interface Service {
-    id: string;
-    name: string;
-    description: string;
-    icon: string;
-    subServices?: Array<{
-      name: string;
-      description: string;
-    }>;
-  }
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+}
+
+export interface ClientServicesProps {
+  services: Service[];
+}
