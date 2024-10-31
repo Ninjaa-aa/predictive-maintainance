@@ -1,30 +1,21 @@
+// components/client/StatCard.tsx
 'use client';
 
 import { motion } from 'framer-motion';
 import { Activity } from 'lucide-react';
 import { Stat } from '@/types/stats.types';
+import { ProgressBar } from '@/components/stats/client/ProgressBar';
 
-interface StatsCardProps {
+interface StatCardProps {
   stat: Stat;
   count: number;
+  variants: import('framer-motion').Variants;
 }
 
-export const StatsCard = ({ stat, count }: StatsCardProps) => {
-  const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-        ease: "easeOut"
-      }
-    }
-  };
-
+export function StatCard({ stat, count, variants }: StatCardProps) {
   return (
     <motion.div
-      variants={cardVariants}
+      variants={variants}
       className="group relative overflow-hidden rounded-xl border border-red-100/50 
                 transition-all duration-500 hover:shadow-xl hover:shadow-red-300/30 
                 hover:-translate-y-2 bg-white 
@@ -33,7 +24,7 @@ export const StatsCard = ({ stat, count }: StatsCardProps) => {
       <div className="relative p-6 transition-colors duration-300">
         <div className="flex items-center justify-between mb-4">
           <div className="p-2 rounded-lg bg-red-50/80 group-hover:bg-white/50 
-                      transition-all duration-500 group-hover:scale-110">
+                        transition-all duration-500 group-hover:scale-110">
             <Activity className="w-6 h-6 text-red-500 group-hover:text-red-600 
                             transition-colors duration-300" />
           </div>
@@ -60,21 +51,8 @@ export const StatsCard = ({ stat, count }: StatsCardProps) => {
           {stat.description}
         </p>
 
-        <div className="absolute bottom-0 left-0 w-full h-[3px] bg-red-50 
-                    group-hover:bg-red-200/50">
-          <div 
-            className="h-full bg-gradient-to-r from-red-400 to-red-500 
-                    group-hover:from-red-500 group-hover:to-red-600 
-                    transition-all duration-1000 ease-out relative overflow-hidden"
-            style={{ 
-              width: `${(count / (stat.value * 1.2)) * 100}%`,
-            }}
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent 
-                        via-white/30 to-transparent animate-shimmer" />
-          </div>
-        </div>
+        <ProgressBar count={count} maxValue={stat.value} />
       </div>
     </motion.div>
   );
-};
+}

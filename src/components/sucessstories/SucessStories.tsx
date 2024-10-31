@@ -1,7 +1,14 @@
+'use client';
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
 
-const Card = ({ children, className = '', index }) => {
+interface CardProps {
+  children: React.ReactNode;
+  className?: string;
+  index: number;
+}
+
+const Card: React.FC<CardProps> = ({ children, className = '', index }) => {
   return (
     <motion.div 
       initial={{ opacity: 0, y: 30 }}
@@ -40,14 +47,14 @@ const Card = ({ children, className = '', index }) => {
 
 // Updated Futuristic background animation component
 const FuturisticBackground = () => {
-  const canvasRef = useRef(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const ctx = canvas.getContext('2d');
-    let animationFrameId;
-    let particles = [];
+    let animationFrameId: number;
+    let particles: Particle[] = [];
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
@@ -57,9 +64,17 @@ const FuturisticBackground = () => {
     window.addEventListener('resize', resizeCanvas);
 
     class Particle {
+      x: number;
+      y: number;
+      size: number;
+      speedX: number;
+      speedY: number;
+      life: number;
+      opacity: number;
+
       constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = Math.random() * canvas.height;
+        this.x = Math.random() * (canvas?.width || 0);
+        this.y = Math.random() * (canvas?.height || 0);
         this.size = Math.random() * 3 + 1; // Increased particle size
         this.speedX = Math.random() * 3 - 1.5; // Increased speed
         this.speedY = Math.random() * 3 - 1.5;
@@ -72,23 +87,27 @@ const FuturisticBackground = () => {
         this.y += this.speedY;
         this.life -= 0.2; // Faster life reduction
 
-        if (this.x > canvas.width) this.x = 0;
-        if (this.x < 0) this.x = canvas.width;
-        if (this.y > canvas.height) this.y = 0;
-        if (this.y < 0) this.y = canvas.height;
+        if (canvas) {
+          if (this.x > canvas.width) this.x = 0;
+          if (this.x < 0) this.x = canvas.width;
+          if (this.y > canvas.height) this.y = 0;
+          if (this.y < 0) this.y = canvas.height;
+        }
       }
 
       draw() {
-        ctx.beginPath();
-        const gradient = ctx.createRadialGradient(
-          this.x, this.y, 0,
-          this.x, this.y, this.size
-        );
-        gradient.addColorStop(0, `rgba(255, 100, 100, ${this.opacity})`);
-        gradient.addColorStop(1, 'rgba(255, 100, 100, 0)');
-        ctx.fillStyle = gradient;
-        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-        ctx.fill();
+        if (ctx) {
+          ctx.beginPath();
+          const gradient = ctx.createRadialGradient(
+            this.x, this.y, 0,
+            this.x, this.y, this.size
+          );
+          gradient.addColorStop(0, `rgba(255, 100, 100, ${this.opacity})`);
+          gradient.addColorStop(1, 'rgba(255, 100, 100, 0)');
+          ctx.fillStyle = gradient;
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fill();
+        }
       }
     }
 
@@ -100,17 +119,21 @@ const FuturisticBackground = () => {
     };
 
     const animate = () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (ctx) {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+      }
       
       // Add subtle background glow
-      const grd = ctx.createRadialGradient(
-        canvas.width/2, canvas.height/2, 0,
-        canvas.width/2, canvas.height/2, canvas.width/2
-      );
-      grd.addColorStop(0, 'rgba(255, 100, 100, 0.05)');
-      grd.addColorStop(1, 'rgba(255, 100, 100, 0)');
-      ctx.fillStyle = grd;
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
+      if (ctx) {
+        const grd = ctx.createRadialGradient(
+          canvas.width/2, canvas.height/2, 0,
+          canvas.width/2, canvas.height/2, canvas.width/2
+        );
+        grd.addColorStop(0, 'rgba(255, 100, 100, 0.05)');
+        grd.addColorStop(1, 'rgba(255, 100, 100, 0)');
+        ctx.fillStyle = grd;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+      }
 
       particles.forEach((particle, index) => {
         particle.update();

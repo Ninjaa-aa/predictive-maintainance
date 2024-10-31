@@ -1,6 +1,6 @@
 // page.tsx
 import AnimatedHero from '@/components/hero/client/AnimatedHero'
-import { HeroContent } from '@/components/hero/server/HeroContent'
+import { HeroContent } from '@/components/hero/client/HeroContent'
 
 export default function Page() {
   return (

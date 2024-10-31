@@ -1,4 +1,5 @@
 // components/hero-content.tsx
+'use client';
 export function HeroContent() {
     const features = [
       "Real-time equipment health monitoring",

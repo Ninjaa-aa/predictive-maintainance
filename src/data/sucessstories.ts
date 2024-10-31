@@ -1,108 +1,100 @@
-import { LucideIcon, Activity, Cpu, Zap, TrendingUp, Shield, BarChart2 } from 'lucide-react';
+import { IndustryBenefit } from '@/types/success-story.types';
 
-export interface SuccessMetric {
-  label: string;
-  value: string;
-  icon: LucideIcon;
-}
-
-export interface SuccessStory {
-  id: string;
-  title: string;
-  company: string;
-  industry: string;
-  metrics: {
-    headline: {
-      value: string;
-      label: string;
-    };
-    stats: SuccessMetric[];
-  };
-  achievements: string[];
-  icon: LucideIcon;
-  gradient: {
-    from: string;
-    to: string;
-  };
-}
-
-export const successStories: SuccessStory[] = [
+export const industryBenefits: IndustryBenefit[] = [
   {
-    id: 'manufacturing',
-    title: 'AI-Powered Manufacturing',
-    company: 'Global Automotive Corp',
-    industry: 'Advanced Manufacturing',
+    industry: "Manufacturing",
+    category: "Case Study",
+    icon: "🏭",
+    company: "Global Automotive Manufacturer",
     metrics: {
-      headline: {
-        value: '99.98%',
-        label: 'System Efficiency'
-      },
-      stats: [
-        { 
-          label: 'Uptime', 
-          value: '850h+', 
-          icon: Activity
-        },
-        { 
-          label: 'Cost Reduction', 
-          value: '42%', 
-          icon: TrendingUp
-        },
-        { 
-          label: 'AI Accuracy', 
-          value: '99.7%', 
-          icon: Shield
-        }
-      ]
+      primary: "92%",
+      context: "reduction in unplanned downtime"
     },
-    achievements: [
-      'Zero unplanned downtime achieved',
-      'Predictive maintenance success rate of 99.9%',
-      '27% improvement in equipment efficiency'
+    implementation: [
+      "Automated production line monitoring",
+      "Predictive quality control system",
+      "Real-time equipment diagnostics"
     ],
-    icon: Cpu,
-    gradient: {
-      from: '#06b6d4',
-      to: '#3b82f6'
-    }
+    impact: "$4.5M annual maintenance savings"
   },
   {
-    id: 'semiconductor',
-    title: 'Smart Factory Systems',
-    company: 'Precision Electronics',
-    industry: 'Semiconductor',
+    industry: "Oil & Gas",
+    category: "Success Story",
+    icon: "⛽",
+    company: "Major Pipeline Operator",
     metrics: {
-      headline: {
-        value: '99.99%',
-        label: 'Yield Rate'
-      },
-      stats: [
-        { 
-          label: 'Quality', 
-          value: '+32%', 
-          icon: Shield
-        },
-        { 
-          label: 'Defect Rate', 
-          value: '-92%', 
-          icon: BarChart2
-        },
-        { 
-          label: 'Efficiency', 
-          value: '98.5%', 
-          icon: Zap
-        }
-      ]
+      primary: "75%",
+      context: "fewer critical failures"
     },
-    achievements: [
-      'Production losses prevented: €7.8M',
-      '40% equipment lifecycle extension',
-      '28% resource utilization improvement'
+    implementation: [
+      "Pipeline integrity monitoring",
+      "Pressure anomaly detection",
+      "Preventive maintenance scheduling"
     ],
-    icon: Activity,
-    gradient: {
-      from: '#8b5cf6',
-      to: '#6366f1'
-    }
+    impact: "Zero safety incidents in 18 months"
+  },
+  {
+    industry: "Healthcare",
+    category: "Implementation",
+    icon: "🏥",
+    company: "Regional Hospital Network",
+    metrics: {
+      primary: "99.9%",
+      context: "medical equipment uptime"
+    },
+    implementation: [
+      "Critical equipment monitoring",
+      "Regulatory compliance automation",
+      "Service life optimization"
+    ],
+    impact: "100% compliance with maintenance standards"
+  },
+  {
+    industry: "Power Generation",
+    category: "Case Study",
+    icon: "⚡",
+    company: "Renewable Energy Provider",
+    metrics: {
+      primary: "85%",
+      context: "improved turbine efficiency"
+    },
+    implementation: [
+      "Wind turbine performance analysis",
+      "Weather-based maintenance planning",
+      "Component lifetime prediction"
+    ],
+    impact: "32% increase in power output"
+  },
+  {
+    industry: "Aviation",
+    category: "Success Story",
+    icon: "✈️",
+    company: "International Airlines",
+    metrics: {
+      primary: "60%",
+      context: "reduction in delays"
+    },
+    implementation: [
+      "Aircraft systems monitoring",
+      "Predictive maintenance scheduling",
+      "Parts inventory optimization"
+    ],
+    impact: "Annual savings of $8.2M in operations"
+  },
+  {
+    industry: "Transportation",
+    category: "Implementation",
+    icon: "🚂",
+    company: "National Rail Service",
+    metrics: {
+      primary: "45%",
+      context: "fewer service disruptions"
+    },
+    implementation: [
+      "Track and signal monitoring",
+      "Fleet condition assessment",
+      "Automated maintenance alerts"
+    ],
+    impact: "95% improvement in on-time performance"
   }
 ];
