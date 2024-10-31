@@ -66,7 +66,7 @@ export default function ClientStats({ initialStats }: ClientStatsProps) {
   );
 }
 
-function StatCard({ stat, index, isInView }: StatCardProps) {
+function StatCard({ stat, isInView }: StatCardProps) {
   const cardVariants = {
     hidden: {
       opacity: 0,

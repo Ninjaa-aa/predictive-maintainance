@@ -7,6 +7,15 @@ export function HeroContent() {
       "Customizable maintenance schedules"
     ]
   
+    const handleExploreClick = () => {
+      const servicesSection = document.getElementById('services');
+      if (servicesSection) {
+        servicesSection.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+    };
     return (
       <>
         {/* Hero Text Container */}
@@ -39,7 +48,7 @@ export function HeroContent() {
           ))}
         </ul>
   
-        <button className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition duration-300 ease-in-out">
+        <button onClick={handleExploreClick} className="bg-red-600 hover:bg-red-700 text-white font-bold rounded-full py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition duration-300 ease-in-out">
           Explore Solutions
         </button>
       </>

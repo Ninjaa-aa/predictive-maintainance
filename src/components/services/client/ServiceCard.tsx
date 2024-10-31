@@ -1,32 +1,27 @@
-// services/client/ServiceCard.tsx
-'use client';
-
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 import { motion, useInView } from 'framer-motion';
-import { ChevronRight } from 'lucide-react';
 import { type Service } from '@/data/service';
-import { FlipText } from '@/components/services/client/FlipText';
 import { iconComponents } from '@/data/service';
 
 export function ServiceCard({ service, index }: { service: Service; index: number }) {
-  const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   const isInView = useInView(cardRef, {
-    once: false,
+    once: true,
     margin: "-100px",
     amount: 0.3
   });
 
-  const variants = {
+  // Card entrance animation variants
+  const cardVariants = {
     hidden: { 
       opacity: 0,
       y: 50,
-      rotateY: -180
+      scale: 0.9
     },
     visible: {
       opacity: 1,
       y: 0,
-      rotateY: 0,
+      scale: 1,
       transition: {
         duration: 0.8,
         ease: [0.215, 0.61, 0.355, 1],
@@ -35,88 +30,103 @@ export function ServiceCard({ service, index }: { service: Service; index: numbe
     }
   };
 
+  // Hover animation variants
+  const hoverVariants = {
+    rest: { 
+      scale: 1,
+      backgroundColor: "rgba(254, 242, 242, 0.9)",
+      transition: { duration: 0.3, ease: "easeOut" }
+    },
+    hover: { 
+      scale: 1.03,
+      backgroundColor: "rgba(254, 226, 226, 0.95)",
+      transition: { duration: 0.3, ease: "easeOut" }
+    }
+  };
+
+  const iconVariants = {
+    rest: { 
+      scale: 1,
+      rotate: 0,
+      transition: { duration: 0.3, ease: "easeOut" }
+    },
+    hover: { 
+      scale: 1.15,
+      rotate: 360,
+      transition: { duration: 0.6, ease: "easeOut" }
+    }
+  };
+
+  const textVariants = {
+    rest: { 
+      y: 0,
+      transition: { duration: 0.3, ease: "easeOut" }
+    },
+    hover: { 
+      y: -5,
+      transition: { duration: 0.3, ease: "easeOut" }
+    }
+  };
+
   const IconComponent = iconComponents[service.icon];
 
   return (
     <motion.div
       ref={cardRef}
-      variants={variants}
+      variants={cardVariants}
       initial="hidden"
       animate={isInView ? "visible" : "hidden"}
-      className="h-full perspective-1000"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
+      className="h-full"
     >
-      {/* Card content remains the same as your original implementation */}
       <motion.div
-        className="h-full bg-gradient-to-br from-red-50 to-white border border-red-100 rounded-xl p-6 relative overflow-hidden"
-        animate={{
-          scale: isHovered ? 1.05 : 1,
-          boxShadow: isHovered 
-            ? "0 25px 50px -12px rgba(239, 68, 68, 0.25)"
-            : "0 4px 6px -1px rgba(0, 0, 0, 0.1)"
-        }}
-        transition={{ type: "spring", stiffness: 300, damping: 25 }}
+        variants={hoverVariants}
+        initial="rest"
+        whileHover="hover"
+        className="h-full rounded-xl p-6 relative overflow-hidden shadow-sm
+                   bg-gradient-to-br from-red-50 via-red-50/80 to-white
+                   hover:from-red-100/90 hover:via-rose-50/90 hover:to-red-50/80
+                   border border-red-100 hover:border-red-200
+                   transition-shadow duration-300 hover:shadow-xl"
       >
-        {/* Your existing card content implementation */}
         <motion.div 
           className="flex items-center space-x-4 mb-6"
-          animate={{ x: isHovered ? 10 : 0 }}
-          transition={{ type: "spring", stiffness: 200 }}
+          variants={textVariants}
         >
           <motion.div
-            className="bg-red-100 rounded-full p-3"
-            animate={{ 
-              rotate: isHovered ? 360 : 0,
-              scale: isHovered ? 1.1 : 1
-            }}
-            transition={{ duration: 0.6 }}
+            variants={iconVariants}
+            className="bg-gradient-to-br from-red-100 to-rose-100 rounded-full p-3"
           >
             <IconComponent className="w-8 h-8 text-red-600" />
           </motion.div>
           
-          <FlipText 
-            text={service.title}
-            className="text-2xl font-bold text-red-700"
-          />
+          <motion.h3 
+            variants={textVariants}
+            className="text-2xl font-bold bg-gradient-to-r from-red-700 to-rose-600 bg-clip-text text-transparent"
+          >
+            {service.title}
+          </motion.h3>
         </motion.div>
 
         <motion.p 
-          className="text-gray-700 leading-relaxed mb-6"
-          animate={{
-            opacity: isHovered ? 1 : 0.8,
-            y: isHovered ? 0 : 5
-          }}
-          transition={{ duration: 0.3 }}
+          variants={textVariants}
+          className="text-gray-700 leading-relaxed"
         >
           {service.description}
         </motion.p>
 
-        <motion.button
-          className="flex items-center text-red-600 font-semibold group"
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <span>Learn More</span>
-          <motion.div
-            animate={{ x: isHovered ? 5 : 0 }}
-            transition={{
-              type: "spring",
-              stiffness: 300,
-              damping: 20
-            }}
-          >
-            <ChevronRight className="w-5 h-5 ml-2" />
-          </motion.div>
-        </motion.button>
-
+        {/* Animated background elements */}
         <motion.div
-          className="absolute -bottom-20 -right-20 w-40 h-40 bg-red-500/20 rounded-full blur-3xl"
-          animate={{
-            scale: isHovered ? 1.5 : 1,
-            opacity: isHovered ? 0.3 : 0
-          }}
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileHover={{ opacity: 0.3, scale: 1.5 }}
           transition={{ duration: 0.4 }}
+          className="absolute -bottom-20 -right-20 w-40 h-40 bg-gradient-to-br from-red-400 to-rose-300 rounded-full blur-3xl"
+        />
+        
+        <motion.div
+          initial={{ opacity: 0, scale: 0.5 }}
+          whileHover={{ opacity: 0.2, scale: 1.2 }}
+          transition={{ duration: 0.5 }}
+          className="absolute -top-20 -left-20 w-40 h-40 bg-gradient-to-br from-rose-300 to-red-200 rounded-full blur-3xl"
         />
       </motion.div>
     </motion.div>
